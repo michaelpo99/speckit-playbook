@@ -66,6 +66,18 @@ Spec Kit 適合管理單一 feature 的 `spec.md`、`plan.md`、`tasks.md` 與 i
 
 若文件彼此衝突，agent 應停下來確認，不要靜默挑一份作為依據。
 
+## Naming Notes
+
+`spec.md` 在 `specs/<feature>/` 內代表 Spec Kit feature-level requirement package。
+
+團隊若習慣把正式 contract 文件稱為 `*_spec.md`，可以保留這個命名；但應用路徑區分語意：
+
+- `specs/<feature>/spec.md`：feature-level requirement / user story / acceptance criteria
+- `docs/contracts/*_spec.md`：shared contract specification
+- `docs/schemas/*.sql`：table schema / DDL / schema comments
+
+也就是說，檔名可以沿用 `spec`，但 `docs/contracts/` 才表示它是 shared contract 層的正式文件。
+
 ## Canonical Source Summary
 
 - `docs/requirements/` 保存 reviewed requirements、policies 與 domain rules。
@@ -76,6 +88,18 @@ Spec Kit 適合管理單一 feature 的 `spec.md`、`plan.md`、`tasks.md` 與 i
 - 有 shared contract dependency 時，用 `contract-dependencies.md` 連結。
 - Feature-local view 是例外，只在 contract 太大、易誤讀或有 feature-specific interpretation 時建立。
 - Discovery 中的 requirement、contract、schema 或暫定規則若要影響實作，必須先提升到對應 canonical source 或 active `specs/`。
+
+## Existing Repo Migration Notes
+
+既有 repo 若已經把 requirements、contracts、schemas 混放在 `docs/requirements/`，建議先依文件性質重新歸位，不急著改檔名：
+
+- business / product / domain rules -> `docs/requirements/`
+- API / file / data / mapping contracts -> `docs/contracts/`
+- full table schema SQL、DDL snapshots、table / column comments -> `docs/schemas/`
+
+搬移後必須同步更新 README、`AGENTS.md`、constitution、active specs、plans、tasks 與 discovery references。
+
+若 schema SQL 來自 migrations、ORM schema 或 production DDL，`docs/schemas/README.md` 必須說明該檔是 canonical source、reviewed snapshot 還是 reference copy。
 
 ## Minimal vs Optional
 
